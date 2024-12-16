@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pintrigue</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/gif" href="favicon.gif">
+</head>
+<body>
+  <style>
+    * {box-sizing: border-box;}
+    body {font-family: Verdana, sans-serif; background-color: rgb(255, 255, 255);}
+    .mySlides {display: none;}
+    img { width: 33.333%; /* Each image takes up 1/3 of the slider */
+  height: 100%;
+  object-fit: cover;}
+    .slideshow-container {
+      width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  
+    }
+    
+    .text {
+      color: #ffffff;
+      background-color: #ff0000a0;
+      font-size: 30px;
+      padding: 8px 12px;
+      position: absolute;
+      bottom: 8px;
+      width: 100%;
+      text-align: center;
+      font-style: italic;
+    }
+    
+
+    .numbertext {
+      color: #f2f2f2;
+      font-size: 12px;
+      padding: 8px 12px;
+      position: absolute;
+      top: 0;
+    }
+
+    .dot {
+      height: 15px;
+      width: 15px;
+      margin: 0 2px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.6s ease;
+    }
+    
+    .active {
+      background-color: #ffffff;
+    }
+    
+  
+    .fade {
+      animation-name: fade;
+      animation-duration: 1.5s;
+    }
+    
+    @keyframes fade {
+      from {opacity: .4} 
+      to {opacity: 1}
+    }
+
+    @media only screen and (max-width: 300px) {
+      .text {font-size: 18px}
+    }
+    </style>
+  <header>
+    <div class="logo">
+      <img src="images/logoo_00001-removebg-preview.png" alt="Logo" class="logo-img"> 
+      Pintrigue
+    </div>
+    <nav>
+      <ul>
+        <li><a href="h.html" id="boards-link">Ideas</a></li>
+        <li><a href="boards.html" id="boards-link">Boards</a></li>
+        <li><a href="about us.html" id="about-link">About Us</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="slideshow-container">
+
+    <div class="mySlides fade">
+      <div class="numbertext">1 / 5</div>
+      <img src="https://images.ctfassets.net/qu53tdnhexvd/18nunKJlaeaGyGgOwkwaYM/4aa94857d5a2b6fe8a5ccfbbcde188ee/frying-pan-pizza.jpg?w=1440&h=1080" style="width:100%">
+      <div class="text">Dinner ideas</div>
+    </div>
+    
+    <div class="mySlides fade">
+      <div class="numbertext">2 / 5</div>
+      <img src="https://i0.wp.com/picjumbo.com/wp-content/uploads/violet-colorful-sunset-sky-on-the-beach-free-photo.jpeg?w=2210&quality=70" style="width:100%">
+      <div class="text">Aesthetic photos</div>
+    </div>
+    
+    <div class="mySlides fade">
+      <div class="numbertext">3 / 5</div>
+      <img src="images/image_2024-12-01_203913477 (1).jpg" style="width:100%">
+      <div class="text">Set up inspirations</div>
+    </div>
+    <div class="mySlides fade">
+      <div class="numbertext">4 / 5</div>
+      <img src="https://images.kosher.com/uploads/FT_699_Frischman_Imas-Burgers.jpg" style="width:100%">
+      <div class="text">Lunch Ideas</div>
+    </div>
+    <div class="mySlides fade">
+      <div class="numbertext">5 / 5</div>
+      <img src="https://images.squarespace-cdn.com/content/v1/5846e6fc4402433c43dc820b/1661448789734-A4DQ0UCJ3LTK1CLSVDTI/LACloset_LynaSF_MeghanBobPhoto_Overall_v1_HR-2.jpg" style="width:100%">
+      <div class="text">Wardrobe Ideas</div>
+    </div>
+    </div>
+    <br>
+    
+    <div style="text-align:center">
+      <span class="dot"></span> 
+      <span class="dot"></span> 
+      <span class="dot"></span> 
+      <span class="dot"></span> 
+      <span class="dot"></span>
+    </div>
+  </div>
+    
+    <script>
+    let slideIndex = 0;
+    showSlides();
+    
+    function showSlides() {
+      let i;
+      let slides = document.getElementsByClassName("mySlides");
+      let dots = document.getElementsByClassName("dot");
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";  
+      }
+      slideIndex++;
+      if (slideIndex > slides.length) {slideIndex = 1}    
+      for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+      }
+      slides[slideIndex-1].style.display = "block";  
+      dots[slideIndex-1].className += " active";
+      setTimeout(showSlides, 2000);
+    }
+    </script>
+    </div>
+    
+  </section>
+  <main id="main-content">
+    <!-- Home Page -->
+     <h1 style="text-shadow: 3px 3px 3px rgba(0,0,0,1);"> <marquee behavior="scroll" direction="left" scrollamount="7">Welcome to Pintrigue </marquee></h1>
+    <section id="home-page" class="page active">
+      <h1 style="font-style: italic;">Pin your interests!</h1>
+      <div class="photo-grid">
+      <!-- pins-->
+        <div class="photo-card" id="1">
+          <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930583940342" height="359" width="345" frameborder="0" scrolling="no" ></iframe>
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card"   id="2">
+            <iframe src="https://assets.pinterest.com/ext/embed.html?id=280841726758297260" height="506" width="345" frameborder="0" scrolling="no" ></iframe>
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card" id="3">
+            <iframe src="https://assets.pinterest.com/ext/embed.html?id=4925880836711087" height="295" width="345" frameborder="0" scrolling="no" ></iframe>
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card" id="4">
+          <iframe src="https://assets.pinterest.com/ext/embed.html?id=341851427983475124" height="532" width="345" frameborder="0" scrolling="no" ></iframe>
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card" id="5">
+            <iframe src="https://assets.pinterest.com/ext/embed.html?id=85146249199079056" height="589" width="345" frameborder="0" scrolling="no" ></iframe>
+            <button class="like-btn">Pin</button>
+          </div>
+          <div class="photo-card" id="6">
+            <iframe src="https://assets.pinterest.com/ext/embed.html?id=3799980929415589" height="590" width="345" frameborder="0" scrolling="no" ></iframe>
+            <button class="like-btn">Pin</button>
+          </div>
+          <div class="photo-card" id="7">
+            <iframe src="https://assets.pinterest.com/ext/embed.html?id=1055599906644574" height="637" width="345" frameborder="0" scrolling="no" ></iframe>
+            <button class="like-btn">Pin</button>
+          </div>
+          <div class="photo-card" id="8">
+            <iframe src="https://assets.pinterest.com/ext/embed.html?id=9148005520476270" height="618" width="345" frameborder="0" scrolling="no" ></iframe>
+            <button class="like-btn">Pin</button>
+          </div>
+          <div class="photo-card" id="9">
+            <iframe src="https://assets.pinterest.com/ext/embed.html?id=111675265754647629" height="303" width="345" frameborder="0" scrolling="no" ></iframe>
+            <button class="like-btn">Pin</button>
+          </div>
+          <div class="photo-card" id="10">
+            <iframe src="https://assets.pinterest.com/ext/embed.html?id=37788084369545249" height="445" width="345" frameborder="0" scrolling="no" ></iframe>
+            <button class="like-btn">Pin</button>
+          </div>
+          <div class="photo-card" id="11">
+            <iframe src="https://assets.pinterest.com/ext/embed.html?id=9007268000371172" height="385" width="345" frameborder="0" scrolling="no" ></iframe>
+            <button class="like-btn">Pin</button>
+          </div>
+          <div class="photo-card" id="12">
+            <iframe src="https://assets.pinterest.com/ext/embed.html?id=7459155628398685" height="532" width="345" frameborder="0" scrolling="no" ></iframe>
+            <button class="like-btn">Pin</button>
+          </div>
+          <div class="photo-card" id="13">
+            <iframe src="https://assets.pinterest.com/ext/embed.html?id=332422016303942940" height="591" width="345" frameborder="0" scrolling="no" ></iframe>
+            <button class="like-btn">Pin</button>
+          </div>
+          <div class="photo-card" id="14">
+            <iframe src="https://assets.pinterest.com/ext/embed.html?id=232779874484453325" height="532" width="345" frameborder="0" scrolling="no" ></iframe>
+            <button class="like-btn">Pin</button>
+          </div>
+          <div class="photo-card" id="15">
+            <iframe src="https://assets.pinterest.com/ext/embed.html?id=10555380370892057" height="637" width="345" frameborder="0" scrolling="no" ></iframe>
+            <button class="like-btn">Pin</button>
+          </div>
+          <div class="photo-card" id="16">
+            <iframe src="https://assets.pinterest.com/ext/embed.html?id=1103170871222260872" height="532" width="345" frameborder="0" scrolling="no" ></iframe>
+            <button class="like-btn">Pin</button>
+          </div>
+          <div class="photo-card" id="18">
+            <iframe src="https://assets.pinterest.com/ext/embed.html?id=24558760463494015" height="492" width="345" frameborder="0" scrolling="no" ></iframe>
+            <button class="like-btn">Pin</button>
+          </div>
+          <div class="photo-card" id="19">
+            <iframe src="https://assets.pinterest.com/ext/embed.html?id=951455858776890542" height="295" width="345" frameborder="0" scrolling="no" ></iframe>
+            <button class="like-btn">Pin</button>
+          </div>
+          <div class="photo-card" id="20">
+          <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930583875373" height="560" width="345" frameborder="0" scrolling="no" ></iframe>
+          <button class="like-btn">Pin</button>
+          </div> 
+          <div class="photo-card" id="21">
+            <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930583875114" height="714" width="345" frameborder="0" scrolling="no" ></iframe>
+            <button class="like-btn">Pin</button>
+      </div>
+      <div class="photo-card" id="22">
+        <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930583940297" height="560" width="345" frameborder="0" scrolling="no" ></iframe>
+        <button class="like-btn">Pin</button>
+  </div>
+  <div class="photo-card" id="23">
+    <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930583940252" height="445" width="345" frameborder="0" scrolling="no" ></iframe>
+    <button class="like-btn">Pin</button>
+</div>
+<div class="photo-card" id="24">
+  <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930583875116" height="559" width="345" frameborder="0" scrolling="no" ></iframe>
+  <button class="like-btn">Pin</button>
+</div>
+<div class="photo-card" id="25">
+  <iframe src="https://assets.pinterest.com/ext/embed.html?id=375558056444446567" height="560" width="345" frameborder="0" scrolling="no" ></iframe>
+  <button class="like-btn">Pin</button>
+</div>
+<div class="photo-card" id="26">
+  <iframe src="https://assets.pinterest.com/ext/embed.html?id=311592867986729930" height="560" width="345" frameborder="0" scrolling="no" ></iframe>
+  <button class="like-btn">Pin</button>
+</div>
+<div class="photo-card" id="27">
+  <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930583940413" height="560" width="345" frameborder="0" scrolling="no" ></iframe>
+  <button class="like-btn">Pin</button>
+</div>
+<div class="photo-card" id="28">
+  <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930583875207" height="714" width="345" frameborder="0" scrolling="no" ></iframe>
+  <button class="like-btn">Pin</button>
+</div>
+<div class="photo-card" id="29">
+  <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930583890098" height="714" width="345" frameborder="0" scrolling="no" ></iframe>
+  <button class="like-btn">Pin</button>
+</div>
+<div class="photo-card" id="30">
+  <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930584004924" height="673" width="345" frameborder="0" scrolling="no" ></iframe>
+  <button class="like-btn">Pin</button>
+</div>
+<div class="photo-card" id="31">
+  <iframe src="https://assets.pinterest.com/ext/embed.html?id=51791464458786835" height="618" width="345" frameborder="0" scrolling="no" ></iframe>
+  <button class="like-btn">Pin</button>
+  </div>
+  <div class="photo-card" id="32">
+  <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930584004778" height="714" width="345" frameborder="0" scrolling="no" ></iframe>
+  <button class="like-btn">Pin</button>
+</div>
+<div class="photo-card"id="33">
+<iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930584004814" height="445" width="345" frameborder="0" scrolling="no" ></iframe>
+<button class="like-btn">Pin</button>
+</div>
+<div class="photo-card" id="34">
+<iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930584004836" height="560" width="345" frameborder="0" scrolling="no" ></iframe>
+<button class="like-btn">Pin</button>
+</div>
+<div class="photo-card" id="35">
+  <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930584004873" height="445" width="345" frameborder="0" scrolling="no" ></iframe>
+  <button class="like-btn">Pin</button>
+  </div>
+  <div class="photo-card"id="36">
+  <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930584004896" height="476" width="345" frameborder="0" scrolling="no" ></iframe>
+  <button class="like-btn">Pin</button>
+  </div>  
+</div>
+</body>
+</html>
