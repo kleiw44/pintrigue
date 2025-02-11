@@ -6,23 +6,66 @@
   <title>Pintrigue</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" type="image/gif" href="favicon.gif">
-</head>
-<body>
   <style>
-    * {box-sizing: border-box;}
-    body {font-family: Verdana, sans-serif; background-color: rgb(255, 255, 255);}
-    .mySlides {display: none;}
-    img { width: 33.333%; /* Each image takes up 1/3 of the slider */
-  height: 100%;
-  object-fit: cover;}
-    .slideshow-container {
-      width: 100%;
-  height: 100%;
-  overflow: hidden;
-  position: relative;
-  
+    * {box-sizing: border-box; margin: 0; padding: 0;}
+    body {
+      font-family: Verdana, sans-serif;
+      background-size: cover;
+      position: relative;
     }
     
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background-color: #d10000;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .logo-img {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+    }
+
+    nav ul li {
+      margin-left: 1rem;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #000000;
+      font-weight: bold;
+    }
+
+    .slideshow-container {
+      width: 100%;
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    .mySlides {
+      display: none;
+    }
+
+    .mySlides img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+    }
+
     .text {
       color: #ffffff;
       background-color: #ff0000a0;
@@ -34,7 +77,6 @@
       text-align: center;
       font-style: italic;
     }
-    
 
     .numbertext {
       color: #f2f2f2;
@@ -53,34 +95,85 @@
       display: inline-block;
       transition: background-color 0.6s ease;
     }
-    
+
     .active {
-      background-color: #ffffff;
+      background-color: #0a0a0a;
     }
-    
-  
+
     .fade {
       animation-name: fade;
       animation-duration: 1.5s;
     }
-    
+
     @keyframes fade {
       from {opacity: .4} 
       to {opacity: 1}
     }
 
-    @media only screen and (max-width: 300px) {
-      .text {font-size: 18px}
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
     }
-    </style>
+
+    .photo-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px; /* Rounded corners */
+      box-shadow: 0 4px 8px rgba(75, 75, 75, 0.2);
+      transition: transform 0.3s ease;
+      background: rgba(107, 107, 107, 0.1); /* Semi-transparent white */
+      backdrop-filter: blur(5px); /* Blur effect */
+    }
+
+
+    .photo-card:hover {
+      transform: scale(1.10);
+    }
+
+    .photo-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px 12px 0 0; /* Rounded corners only on top */
+    }
+
+
+    .like-btn {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background-color: #ff0000;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .like-btn:hover {
+      background-color: #cc0000;
+    }
+
+    @media only screen and (max-width: 600px) {
+      .text {font-size: 18px}
+      .photo-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem; /* Smaller gap for mobile */
+        padding: 1rem; /* Smaller padding for mobile */
+      }
+    }
+  </style>
   <header>
     <div class="logo">
-      <img src="images/logoo_00001-removebg-preview.png" alt="Logo" class="logo-img">
+      <img src="images/logoo_00001-removebg-preview.png" alt="Logo" class="logo-img"> 
       Pintrigue
     </div>
     <nav>
       <ul>
-        <li><a href="index.html" id="boards-link">Ideas</a></li>
+        <li><a href="h.html" id="boards-link">Ideas</a></li>
         <li><a href="boards.html" id="boards-link">Boards</a></li>
         <li><a href="about us.html" id="about-link">About Us</a></li>
       </ul>
@@ -146,6 +239,39 @@
       slides[slideIndex-1].style.display = "block";  
       dots[slideIndex-1].className += " active";
       setTimeout(showSlides, 2000);
+        // Pin functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    // Save pin to localStorage
+    document.querySelectorAll('.like-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const card = this.closest('.photo-card');
+        const img = card.querySelector('img');
+        const pin = {
+          src: img.src,
+          alt: img.alt,
+          timestamp: new Date().getTime()
+        };
+
+        let pins = JSON.parse(localStorage.getItem('pins') || []);
+        
+        // Check if pin already exists
+        const exists = pins.some(existingPin => existingPin.src === pin.src);
+        if (!exists) {
+          pins.push(pin);
+          localStorage.setItem('pins', JSON.stringify(pins));
+          this.textContent = 'Pinned!';
+          setTimeout(() => {
+            this.textContent = 'Pin';
+          }, 2000);
+        } else {
+          this.textContent = 'Already Pinned!';
+          setTimeout(() => {
+            this.textContent = 'Pin';
+          }, 2000);
+        }
+      });
+    });
+  });
     }
     </script>
     </div>
@@ -153,151 +279,221 @@
   </section>
   <main id="main-content">
     <!-- Home Page -->
-     <h1 style="text-shadow: 3px 3px 3px rgba(0,0,0,1);"> <marquee behavior="scroll" direction="left" scrollamount="7">Welcome to Pintrigue </marquee></h1>
+    <h1 style="text-align: center; margin: 1rem 0;">Welcome to Pintrigue</h1>
     <section id="home-page" class="page active">
       <h1 style="font-style: italic;">Pin your interests!</h1>
       <div class="photo-grid">
-      <!-- pins-->
-        <div class="photo-card" id="1">
-          <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930583940342" height="359" width="345" frameborder="0" scrolling="no" ></iframe>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/0c/10/17/0c101756452e9829e26b4e11a50fd608.jpg" alt="Pin 1">
           <button class="like-btn">Pin</button>
         </div>
-        <div class="photo-card"   id="2">
-            <iframe src="https://assets.pinterest.com/ext/embed.html?id=280841726758297260" height="506" width="345" frameborder="0" scrolling="no" ></iframe>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/79/7e/86/797e86b0ebf658e175e324255116bf35.jpg" alt="Pin 2">
           <button class="like-btn">Pin</button>
         </div>
-        <div class="photo-card" id="3">
-            <iframe src="https://assets.pinterest.com/ext/embed.html?id=4925880836711087" height="295" width="345" frameborder="0" scrolling="no" ></iframe>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/a3/53/47/a3534743622b53a53de83acea383546c.jpg" alt="Pin 3">
           <button class="like-btn">Pin</button>
         </div>
-        <div class="photo-card" id="4">
-          <iframe src="https://assets.pinterest.com/ext/embed.html?id=341851427983475124" height="532" width="345" frameborder="0" scrolling="no" ></iframe>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/cf/27/b3/cf27b34bac3e01d9d37cf425579c2c2e.jpg" alt="Pin 4">
           <button class="like-btn">Pin</button>
         </div>
-        <div class="photo-card" id="5">
-            <iframe src="https://assets.pinterest.com/ext/embed.html?id=85146249199079056" height="589" width="345" frameborder="0" scrolling="no" ></iframe>
-            <button class="like-btn">Pin</button>
-          </div>
-          <div class="photo-card" id="6">
-            <iframe src="https://assets.pinterest.com/ext/embed.html?id=3799980929415589" height="590" width="345" frameborder="0" scrolling="no" ></iframe>
-            <button class="like-btn">Pin</button>
-          </div>
-          <div class="photo-card" id="7">
-            <iframe src="https://assets.pinterest.com/ext/embed.html?id=1055599906644574" height="637" width="345" frameborder="0" scrolling="no" ></iframe>
-            <button class="like-btn">Pin</button>
-          </div>
-          <div class="photo-card" id="8">
-            <iframe src="https://assets.pinterest.com/ext/embed.html?id=9148005520476270" height="618" width="345" frameborder="0" scrolling="no" ></iframe>
-            <button class="like-btn">Pin</button>
-          </div>
-          <div class="photo-card" id="9">
-            <iframe src="https://assets.pinterest.com/ext/embed.html?id=111675265754647629" height="303" width="345" frameborder="0" scrolling="no" ></iframe>
-            <button class="like-btn">Pin</button>
-          </div>
-          <div class="photo-card" id="10">
-            <iframe src="https://assets.pinterest.com/ext/embed.html?id=37788084369545249" height="445" width="345" frameborder="0" scrolling="no" ></iframe>
-            <button class="like-btn">Pin</button>
-          </div>
-          <div class="photo-card" id="11">
-            <iframe src="https://assets.pinterest.com/ext/embed.html?id=9007268000371172" height="385" width="345" frameborder="0" scrolling="no" ></iframe>
-            <button class="like-btn">Pin</button>
-          </div>
-          <div class="photo-card" id="12">
-            <iframe src="https://assets.pinterest.com/ext/embed.html?id=7459155628398685" height="532" width="345" frameborder="0" scrolling="no" ></iframe>
-            <button class="like-btn">Pin</button>
-          </div>
-          <div class="photo-card" id="13">
-            <iframe src="https://assets.pinterest.com/ext/embed.html?id=332422016303942940" height="591" width="345" frameborder="0" scrolling="no" ></iframe>
-            <button class="like-btn">Pin</button>
-          </div>
-          <div class="photo-card" id="14">
-            <iframe src="https://assets.pinterest.com/ext/embed.html?id=232779874484453325" height="532" width="345" frameborder="0" scrolling="no" ></iframe>
-            <button class="like-btn">Pin</button>
-          </div>
-          <div class="photo-card" id="15">
-            <iframe src="https://assets.pinterest.com/ext/embed.html?id=10555380370892057" height="637" width="345" frameborder="0" scrolling="no" ></iframe>
-            <button class="like-btn">Pin</button>
-          </div>
-          <div class="photo-card" id="16">
-            <iframe src="https://assets.pinterest.com/ext/embed.html?id=1103170871222260872" height="532" width="345" frameborder="0" scrolling="no" ></iframe>
-            <button class="like-btn">Pin</button>
-          </div>
-          <div class="photo-card" id="18">
-            <iframe src="https://assets.pinterest.com/ext/embed.html?id=24558760463494015" height="492" width="345" frameborder="0" scrolling="no" ></iframe>
-            <button class="like-btn">Pin</button>
-          </div>
-          <div class="photo-card" id="19">
-            <iframe src="https://assets.pinterest.com/ext/embed.html?id=951455858776890542" height="295" width="345" frameborder="0" scrolling="no" ></iframe>
-            <button class="like-btn">Pin</button>
-          </div>
-          <div class="photo-card" id="20">
-          <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930583875373" height="560" width="345" frameborder="0" scrolling="no" ></iframe>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/f1/81/99/f18199fee1c3a885859ba2b200cd7349.jpg" alt="Pin 5">
           <button class="like-btn">Pin</button>
-          </div> 
-          <div class="photo-card" id="21">
-            <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930583875114" height="714" width="345" frameborder="0" scrolling="no" ></iframe>
-            <button class="like-btn">Pin</button>
-      </div>
-      <div class="photo-card" id="22">
-        <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930583940297" height="560" width="345" frameborder="0" scrolling="no" ></iframe>
-        <button class="like-btn">Pin</button>
-  </div>
-  <div class="photo-card" id="23">
-    <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930583940252" height="445" width="345" frameborder="0" scrolling="no" ></iframe>
-    <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/1f/e7/06/1fe70654af4ddcfd64a560961f54af34.jpg" alt="Pin 6">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/36/4b/25/364b25a5e0a218b4174529147829b54e.jpg" alt="Pin 7">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/89/2c/42/892c4289e1ee880042e265c6ddf1f025.jpg" alt="Pin 8">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/9f/56/53/9f5653824c1e29efe4e4ed97f3a8792b.jpg" alt="Pin 9">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/51/15/35/5115359c0ff942747bbfb1fd83a46787.jpg" alt="Pin 10">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/38/ec/3b/38ec3b7eef4b298e02ba867334d825c6.jpg" alt="Pin 11">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/61/c2/6b/61c26bab1b11312ee3d51b9c3d9d36ab.jpg" alt="Pin 12">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/de/01/7e/de017ef035029d3d8788231ca5d8712a.jpg" alt="Pin 13">
+          <button class="like-btn">Pin</button>
+        </div> <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/5e/d4/dd/5ed4dd259bab71e3976860153afcf634.jpg" alt="Pin 14">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/e1/44/4d/e1444d023287698177028905ad02cc11.jpg" alt="Pin 15">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/f3/4a/dc/f34adce2c047b072b6178b7b80bb44fd.jpg" alt="Pin 16">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/6c/9e/77/6c9e77642166075cd7a036aa386cdadb.jpg" alt="Pin 17">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/236x/ab/b2/b9/abb2b9a004121242d44268cfa689335e.jpg" alt="Pin 18">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/75/e2/85/75e2851b5668b920fa3b428786a5c175.jpg" alt="Pin 19">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/bd/1d/5b/bd1d5b601354d9fcf2b089620f81273f.jpg" alt="Pin 20">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/8c/a0/e6/8ca0e69d81e29686e1c3921eb77badd3.jpg" alt="Pin 21">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/236x/74/e1/04/74e1044db8c8f39fe3d01f30a9bf9326.jpg" alt="Pin 22">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/236x/12/59/3c/12593cf1ecd842e695a320fe6a849c2a.jpg" alt="Pin 23">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/c8/f6/b9/c8f6b9936d0e9f2a408a2100f6f16879.jpg" alt="Pin 24">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/48/c8/89/48c889331c60c1a6a5ea159959d41220.jpg" alt="Pin 25">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/e8/33/eb/e833ebaf1dc2cfd26a558ddb15c326d5.jpg" alt="Pin 26">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/04/cf/ae/04cfaedcab377c7fe9e2670103630a76.jpg" alt="Pin 27">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/9b/2e/8c/9b2e8c9581dc861c4d87ed28248fe3c0.jpg" alt="Pin 28">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/45/43/1b/45431b96facf82396f607b60076d45ef.jpg" alt="Pin 29">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/236x/4d/a9/90/4da99027817916265e497efc553accaf.jpg" alt="Pin 30">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/236x/ff/30/99/ff3099fa349549b15679ca8d1a5e1c51.jpg" alt="Pin 31">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/6d/70/5c/6d705c9a6be3c9435208692dc6686aa2.jpg" alt="Pin 32">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/af/5b/79/af5b79bdcccb7e7078fb73abc15ed1b3.jpg" alt="Pin 33">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/89/a2/e3/89a2e3f4f80f441371e317ef213bbbb4.jpg" alt="Pin 34">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/236x/26/13/f8/2613f8b705eafb146d43850b82f19954.jpg" alt="Pin 35">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/236x/ab/a8/dd/aba8dd578f4ee5812a3b405c2a916891.jpg" alt="Pin 36">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/236x/b9/a7/18/b9a718df45a15a40810da7b3c7e8cd07.jpg" alt="Pin 37">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/236x/48/1e/19/481e1991b40b0b64976c1335bb347fff.jpg" alt="Pin 38">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/236x/16/1a/86/161a866620c70a83f4f8dbfb8acd876f.jpg" alt="Pin 39">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/b1/00/47/b10047cb77913f51551b9c088b271b5a.jpg" alt="Pin 40">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/236x/a2/7c/da/a27cda77b7e6970f38b1ea90355a2146.jpg" alt="Pin 41">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/4d/1a/ae/4d1aae345ad1081410ecdf0ab65190b8.jpg" alt="Pin 42">
+          <button class="like-btn">Pin</button>
+        </div>
 </div>
-<div class="photo-card" id="24">
-  <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930583875116" height="559" width="345" frameborder="0" scrolling="no" ></iframe>
-  <button class="like-btn">Pin</button>
-</div>
-<div class="photo-card" id="25">
-  <iframe src="https://assets.pinterest.com/ext/embed.html?id=375558056444446567" height="560" width="345" frameborder="0" scrolling="no" ></iframe>
-  <button class="like-btn">Pin</button>
-</div>
-<div class="photo-card" id="26">
-  <iframe src="https://assets.pinterest.com/ext/embed.html?id=311592867986729930" height="560" width="345" frameborder="0" scrolling="no" ></iframe>
-  <button class="like-btn">Pin</button>
-</div>
-<div class="photo-card" id="27">
-  <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930583940413" height="560" width="345" frameborder="0" scrolling="no" ></iframe>
-  <button class="like-btn">Pin</button>
-</div>
-<div class="photo-card" id="28">
-  <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930583875207" height="714" width="345" frameborder="0" scrolling="no" ></iframe>
-  <button class="like-btn">Pin</button>
-</div>
-<div class="photo-card" id="29">
-  <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930583890098" height="714" width="345" frameborder="0" scrolling="no" ></iframe>
-  <button class="like-btn">Pin</button>
-</div>
-<div class="photo-card" id="30">
-  <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930584004924" height="673" width="345" frameborder="0" scrolling="no" ></iframe>
-  <button class="like-btn">Pin</button>
-</div>
-<div class="photo-card" id="31">
-  <iframe src="https://assets.pinterest.com/ext/embed.html?id=51791464458786835" height="618" width="345" frameborder="0" scrolling="no" ></iframe>
-  <button class="like-btn">Pin</button>
-  </div>
-  <div class="photo-card" id="32">
-  <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930584004778" height="714" width="345" frameborder="0" scrolling="no" ></iframe>
-  <button class="like-btn">Pin</button>
-</div>
-<div class="photo-card"id="33">
-<iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930584004814" height="445" width="345" frameborder="0" scrolling="no" ></iframe>
-<button class="like-btn">Pin</button>
-</div>
-<div class="photo-card" id="34">
-<iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930584004836" height="560" width="345" frameborder="0" scrolling="no" ></iframe>
-<button class="like-btn">Pin</button>
-</div>
-<div class="photo-card" id="35">
-  <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930584004873" height="445" width="345" frameborder="0" scrolling="no" ></iframe>
-  <button class="like-btn">Pin</button>
-  </div>
-  <div class="photo-card"id="36">
-  <iframe src="https://assets.pinterest.com/ext/embed.html?id=990017930584004896" height="476" width="345" frameborder="0" scrolling="no" ></iframe>
-  <button class="like-btn">Pin</button>
-  </div>  
-</div>
+<script>
+  // Updated Pin functionality with toggle
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize button states
+    const pins = JSON.parse(localStorage.getItem('pins') || []);
+    document.querySelectorAll('.like-btn').forEach(button => {
+      const imgSrc = button.closest('.photo-card').querySelector('img').src;
+      const isPinned = pins.some(pin => pin.src === imgSrc);
+      button.textContent = isPinned ? 'Unpin' : 'Pin';
+    });
+
+    // Toggle pin/unpin
+    document.querySelectorAll('.like-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const card = this.closest('.photo-card');
+        const img = card.querySelector('img');
+        const pin = {
+          src: img.src,
+          alt: img.alt,
+          timestamp: new Date().getTime()
+        };
+
+        let pins = JSON.parse(localStorage.getItem('pins') || '[]');
+        const existingIndex = pins.findIndex(p => p.src === pin.src);
+
+        if (existingIndex === -1) {
+          // Pin the item
+          pins.push(pin);
+          this.textContent = 'Pinned!';
+        } else {
+          // Unpin the item
+          pins.splice(existingIndex, 1);
+          this.textContent = 'Unpinned!';
+        }
+
+        localStorage.setItem('pins', JSON.stringify(pins));
+        
+        setTimeout(() => {
+          this.textContent = existingIndex === -1 ? 'Unpin' : 'Pin';
+        }, 2000);
+      });
+    });
+  });
+</script>
 </body>
 </html>
