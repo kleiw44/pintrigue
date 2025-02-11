@@ -6,12 +6,108 @@
   <title>About Us</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-<body style="background-color: rgb(255, 255, 255);">
+<body style="background-color: rgb(0, 0, 0);">
+  <style>
+    body {
+      font-family: Verdana, sans-serif;
+      background-size: cover;
+      position: relative;
+    }
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background-color: #d10000;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .logo-img {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+    }
+
+    nav ul li {
+      margin-left: 1rem;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #000000;
+      font-weight: bold;
+    }
+
+    .text {
+      color: #ffffff;
+      background-color: #ff0000a0;
+      font-size: 30px;
+      padding: 8px 12px;
+      position: absolute;
+      bottom: 8px;
+      width: 100%;
+      text-align: center;
+      font-style: italic;
+    }
+
+     /* New video container styles */
+     .video-container {
+      width: 400px;
+      height: 400px;
+      margin: 20px auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    video {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    /* Text alignment styles */
+    .content-section {
+      text-align: center;
+      color: white;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .content-section h1 {
+      margin-bottom: 1rem;
+    }
+
+    .creator-credit {
+      font-style: italic;
+      color: rgb(255, 255, 255);
+      background-color: rgb(202, 0, 0);
+      padding: 10px;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+  </style>
   <header>
-        <div class="logo">Pintrigue</div>
+    <div class="logo">
+      <img src="images/logoo_00001-removebg-preview.png" alt="Logo" class="logo-img"> 
+      <a href="h.html"><p style="color: black; text-decoration: none;">Pintrigue</p></a>
+    </div>
         <nav>
           <ul>
-            <li><a href="index.html" id="boards-link">Ideas</a></li>
+            <li><a href="h.html" id="boards-link">Ideas</a></li>
             <li><a href="boards.html" id="boards-link">Boards</a></li>
             <li><a href="about us.html" id="about-link">About Us</a></li>
           </ul>
@@ -20,10 +116,12 @@
     
 
   <main>
-    <img src="images/logowhite.gif" alt="GIF LOGO" style="  display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 20%;">
+    <div class="video-container">
+      <video loop autoplay muted>
+        <source src="images/pintrigye logo.mp4" type="video/mp4">
+        <source src="images/pintrigye logo.mp4" type="video/ogg">
+      </video>
+    </div>
     <section>
       <h1>About Us</h1>
       <p>
