@@ -1,13 +1,13 @@
-<!-- boards.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Boards - Pintrigue</title>
+  <title>Pintrigue</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/gif" href="favicon.gif">
   <style>
-      * {box-sizing: border-box; margin: 0; padding: 0;}
+    * {box-sizing: border-box; margin: 0; padding: 0;}
     body {
       font-family: Verdana, sans-serif;
       background-size: cover;
@@ -166,61 +166,335 @@
       }
     }
   </style>
-</head>
-<body>
   <header>
     <div class="logo">
-      <img src="images/logoo_00001-removebg-preview.png" alt="Logo" class="logo-img">
+      <img src="images/logoo_00001-removebg-preview.png" alt="Logo" class="logo-img"> 
       Pintrigue
     </div>
     <nav>
       <ul>
-        <li><a href="h.html">Ideas</a></li>
-        <li><a href="boards.html">Boards</a></li>
-        <li><a href="about us.html">About Us</a></li>
+        <li><a href="h.html" id="boards-link">Ideas</a></li>
+        <li><a href="boards.html" id="boards-link">Boards</a></li>
+        <li><a href="about us.html" id="about-link">About Us</a></li>
       </ul>
     </nav>
   </header>
-  
-  <main>
-    <section class="board-header">
-      <h1>Your Pinned Items</h1>
-    </section>
-    
-    <div id="board-grid" class="photo-grid">
-      <!-- Pinned items will be inserted here -->
+  <div class="slideshow-container">
+
+    <div class="mySlides fade">
+      <div class="numbertext">1 / 5</div>
+      <img src="https://images.ctfassets.net/qu53tdnhexvd/18nunKJlaeaGyGgOwkwaYM/4aa94857d5a2b6fe8a5ccfbbcde188ee/frying-pan-pizza.jpg?w=1440&h=1080" style="width:100%">
+      <div class="text">Dinner ideas</div>
     </div>
-  </main>
-  <script>
-    // Update boards.html script
-    function refreshBoard() {
-      const pins = JSON.parse(localStorage.getItem('pins') || '[]');
-      const grid = document.getElementById('board-grid');
-      grid.innerHTML = '';
-  
-      if (pins.length === 0) {
-        grid.innerHTML = '<p style="color: white; text-align: center; width: 100%;">No pins saved yet!</p>';
-        return;
-      }
-  
-      pins.forEach(pin => {
-        const card = document.createElement('div');
-        card.className = 'photo-card';
-        card.innerHTML = `
-          <img src="${pin.src}" alt="${pin.alt}">
-          <div class="pin-info" style="padding: 10px; color: white;">
-            <p>${new Date(pin.timestamp).toLocaleDateString()}</p>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-  
-    // Refresh board when storage changes
-    window.addEventListener('storage', refreshBoard);
     
-    // Initial load
-    document.addEventListener('DOMContentLoaded', refreshBoard);
-  </script>
+    <div class="mySlides fade">
+      <div class="numbertext">2 / 5</div>
+      <img src="https://i0.wp.com/picjumbo.com/wp-content/uploads/violet-colorful-sunset-sky-on-the-beach-free-photo.jpeg?w=2210&quality=70" style="width:100%">
+      <div class="text">Aesthetic photos</div>
+    </div>
+    
+    <div class="mySlides fade">
+      <div class="numbertext">3 / 5</div>
+      <img src="images/image_2024-12-01_203913477 (1).jpg" style="width:100%">
+      <div class="text">Set up inspirations</div>
+    </div>
+    <div class="mySlides fade">
+      <div class="numbertext">4 / 5</div>
+      <img src="https://images.kosher.com/uploads/FT_699_Frischman_Imas-Burgers.jpg" style="width:100%">
+      <div class="text">Lunch Ideas</div>
+    </div>
+    <div class="mySlides fade">
+      <div class="numbertext">5 / 5</div>
+      <img src="https://images.squarespace-cdn.com/content/v1/5846e6fc4402433c43dc820b/1661448789734-A4DQ0UCJ3LTK1CLSVDTI/LACloset_LynaSF_MeghanBobPhoto_Overall_v1_HR-2.jpg" style="width:100%">
+      <div class="text">Wardrobe Ideas</div>
+    </div>
+    </div>
+    <br>
+    
+    <div style="text-align:center">
+      <span class="dot"></span> 
+      <span class="dot"></span> 
+      <span class="dot"></span> 
+      <span class="dot"></span> 
+      <span class="dot"></span>
+    </div>
+  </div>
+    
+    <script>
+    let slideIndex = 0;
+    showSlides();
+    
+    function showSlides() {
+      let i;
+      let slides = document.getElementsByClassName("mySlides");
+      let dots = document.getElementsByClassName("dot");
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";  
+      }
+      slideIndex++;
+      if (slideIndex > slides.length) {slideIndex = 1}    
+      for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+      }
+      slides[slideIndex-1].style.display = "block";  
+      dots[slideIndex-1].className += " active";
+      setTimeout(showSlides, 2000);
+        // Pin functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    // Save pin to localStorage
+    document.querySelectorAll('.like-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const card = this.closest('.photo-card');
+        const img = card.querySelector('img');
+        const pin = {
+          src: img.src,
+          alt: img.alt,
+          timestamp: new Date().getTime()
+        };
+
+        let pins = JSON.parse(localStorage.getItem('pins') || []);
+        
+        // Check if pin already exists
+        const exists = pins.some(existingPin => existingPin.src === pin.src);
+        if (!exists) {
+          pins.push(pin);
+          localStorage.setItem('pins', JSON.stringify(pins));
+          this.textContent = 'Pinned!';
+          setTimeout(() => {
+            this.textContent = 'Pin';
+          }, 2000);
+        } else {
+          this.textContent = 'Already Pinned!';
+          setTimeout(() => {
+            this.textContent = 'Pin';
+          }, 2000);
+        }
+      });
+    });
+  });
+    }
+    </script>
+    </div>
+    
+  </section>
+  <main id="main-content">
+    <!-- Home Page -->
+    <h1 style="text-align: center; margin: 1rem 0;">Welcome to Pintrigue</h1>
+    <section id="home-page" class="page active">
+      <h1 style="font-style: italic;">Pin your interests!</h1>
+      <div class="photo-grid">
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/0c/10/17/0c101756452e9829e26b4e11a50fd608.jpg" alt="Pin 1">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/79/7e/86/797e86b0ebf658e175e324255116bf35.jpg" alt="Pin 2">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/a3/53/47/a3534743622b53a53de83acea383546c.jpg" alt="Pin 3">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/cf/27/b3/cf27b34bac3e01d9d37cf425579c2c2e.jpg" alt="Pin 4">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/f1/81/99/f18199fee1c3a885859ba2b200cd7349.jpg" alt="Pin 5">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/1f/e7/06/1fe70654af4ddcfd64a560961f54af34.jpg" alt="Pin 6">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/36/4b/25/364b25a5e0a218b4174529147829b54e.jpg" alt="Pin 7">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/89/2c/42/892c4289e1ee880042e265c6ddf1f025.jpg" alt="Pin 8">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/9f/56/53/9f5653824c1e29efe4e4ed97f3a8792b.jpg" alt="Pin 9">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/51/15/35/5115359c0ff942747bbfb1fd83a46787.jpg" alt="Pin 10">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/38/ec/3b/38ec3b7eef4b298e02ba867334d825c6.jpg" alt="Pin 11">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/61/c2/6b/61c26bab1b11312ee3d51b9c3d9d36ab.jpg" alt="Pin 12">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/de/01/7e/de017ef035029d3d8788231ca5d8712a.jpg" alt="Pin 13">
+          <button class="like-btn">Pin</button>
+        </div> <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/5e/d4/dd/5ed4dd259bab71e3976860153afcf634.jpg" alt="Pin 14">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/e1/44/4d/e1444d023287698177028905ad02cc11.jpg" alt="Pin 15">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/f3/4a/dc/f34adce2c047b072b6178b7b80bb44fd.jpg" alt="Pin 16">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/6c/9e/77/6c9e77642166075cd7a036aa386cdadb.jpg" alt="Pin 17">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/236x/ab/b2/b9/abb2b9a004121242d44268cfa689335e.jpg" alt="Pin 18">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/75/e2/85/75e2851b5668b920fa3b428786a5c175.jpg" alt="Pin 19">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/bd/1d/5b/bd1d5b601354d9fcf2b089620f81273f.jpg" alt="Pin 20">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/8c/a0/e6/8ca0e69d81e29686e1c3921eb77badd3.jpg" alt="Pin 21">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/236x/74/e1/04/74e1044db8c8f39fe3d01f30a9bf9326.jpg" alt="Pin 22">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/236x/12/59/3c/12593cf1ecd842e695a320fe6a849c2a.jpg" alt="Pin 23">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/c8/f6/b9/c8f6b9936d0e9f2a408a2100f6f16879.jpg" alt="Pin 24">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/48/c8/89/48c889331c60c1a6a5ea159959d41220.jpg" alt="Pin 25">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/e8/33/eb/e833ebaf1dc2cfd26a558ddb15c326d5.jpg" alt="Pin 26">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/04/cf/ae/04cfaedcab377c7fe9e2670103630a76.jpg" alt="Pin 27">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/9b/2e/8c/9b2e8c9581dc861c4d87ed28248fe3c0.jpg" alt="Pin 28">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/45/43/1b/45431b96facf82396f607b60076d45ef.jpg" alt="Pin 29">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/236x/4d/a9/90/4da99027817916265e497efc553accaf.jpg" alt="Pin 30">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/236x/ff/30/99/ff3099fa349549b15679ca8d1a5e1c51.jpg" alt="Pin 31">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/6d/70/5c/6d705c9a6be3c9435208692dc6686aa2.jpg" alt="Pin 32">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/af/5b/79/af5b79bdcccb7e7078fb73abc15ed1b3.jpg" alt="Pin 33">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/89/a2/e3/89a2e3f4f80f441371e317ef213bbbb4.jpg" alt="Pin 34">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/236x/26/13/f8/2613f8b705eafb146d43850b82f19954.jpg" alt="Pin 35">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/236x/ab/a8/dd/aba8dd578f4ee5812a3b405c2a916891.jpg" alt="Pin 36">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/236x/b9/a7/18/b9a718df45a15a40810da7b3c7e8cd07.jpg" alt="Pin 37">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/236x/48/1e/19/481e1991b40b0b64976c1335bb347fff.jpg" alt="Pin 38">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/236x/16/1a/86/161a866620c70a83f4f8dbfb8acd876f.jpg" alt="Pin 39">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/474x/b1/00/47/b10047cb77913f51551b9c088b271b5a.jpg" alt="Pin 40">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/236x/a2/7c/da/a27cda77b7e6970f38b1ea90355a2146.jpg" alt="Pin 41">
+          <button class="like-btn">Pin</button>
+        </div>
+        <div class="photo-card">
+          <img src="https://i.pinimg.com/736x/4d/1a/ae/4d1aae345ad1081410ecdf0ab65190b8.jpg" alt="Pin 42">
+          <button class="like-btn">Pin</button>
+        </div>
+</div>
+<script>
+  // Updated Pin functionality with toggle
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize button states
+    const pins = JSON.parse(localStorage.getItem('pins') || []);
+    document.querySelectorAll('.like-btn').forEach(button => {
+      const imgSrc = button.closest('.photo-card').querySelector('img').src;
+      const isPinned = pins.some(pin => pin.src === imgSrc);
+      button.textContent = isPinned ? 'Unpin' : 'Pin';
+    });
+
+    // Toggle pin/unpin
+    document.querySelectorAll('.like-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const card = this.closest('.photo-card');
+        const img = card.querySelector('img');
+        const pin = {
+          src: img.src,
+          alt: img.alt,
+          timestamp: new Date().getTime()
+        };
+
+        let pins = JSON.parse(localStorage.getItem('pins') || '[]');
+        const existingIndex = pins.findIndex(p => p.src === pin.src);
+
+        if (existingIndex === -1) {
+          // Pin the item
+          pins.push(pin);
+          this.textContent = 'Pinned!';
+        } else {
+          // Unpin the item
+          pins.splice(existingIndex, 1);
+          this.textContent = 'Unpinned!';
+        }
+
+        localStorage.setItem('pins', JSON.stringify(pins));
+        
+        setTimeout(() => {
+          this.textContent = existingIndex === -1 ? 'Unpin' : 'Pin';
+        }, 2000);
+      });
+    });
+  });
+</script>
 </body>
 </html>
+    
