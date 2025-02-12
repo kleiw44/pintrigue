@@ -452,48 +452,41 @@
         </div>
 </div>
 <script>
-  // Updated Pin functionality with toggle
-  document.addEventListener('DOMContentLoaded', () => {
-    // Initialize button states
-    const pins = JSON.parse(localStorage.getItem('pins') || []);
-    document.querySelectorAll('.like-btn').forEach(button => {
-      const imgSrc = button.closest('.photo-card').querySelector('img').src;
-      const isPinned = pins.some(pin => pin.src === imgSrc);
-      button.textContent = isPinned ? 'Unpin' : 'Pin';
-    });
+document.querySelectorAll('.like-btn').forEach(button => {
+  const imgSrc = button.closest('.photo-card').querySelector('img').src;
+  const isPinned = pins.some(pin => pin.src === imgSrc);
+  button.textContent = isPinned ? 'Unpin' : 'Pin';
+});
 
-    // Toggle pin/unpin
-    document.querySelectorAll('.like-btn').forEach(button => {
-      button.addEventListener('click', function() {
-        const card = this.closest('.photo-card');
-        const img = card.querySelector('img');
-        const pin = {
-          src: img.src,
-          alt: img.alt,
-          timestamp: new Date().getTime()
-        };
+// Toggle pin/unpin
+document.querySelectorAll('.like-btn').forEach(button => {
+  button.addEventListener('click', function() {
+    const card = this.closest('.photo-card');
+    const img = card.querySelector('img');
+    const pin = {
+      src: img.src,
+      alt: img.alt,
+      timestamp: new Date().getTime()
+    };
 
-        let pins = JSON.parse(localStorage.getItem('pins') || '[]');
-        const existingIndex = pins.findIndex(p => p.src === pin.src);
+    let pins = JSON.parse(localStorage.getItem('pins') || '[]');
+    const existingIndex = pins.findIndex(p => p.src === pin.src);
 
-        if (existingIndex === -1) {
-          // Pin the item
-          pins.push(pin);
-          this.textContent = 'Pinned!';
-        } else {
-          // Unpin the item
-          pins.splice(existingIndex, 1);
-          this.textContent = 'Unpinned!';
-        }
+    if (existingIndex === -1) {
+      pins.push(pin);
+      this.textContent = 'Pinned!';
+    } else {
+      pins.splice(existingIndex, 1);
+      this.textContent = 'Unpinned!';
+    }
 
-        localStorage.setItem('pins', JSON.stringify(pins));
-        
-        setTimeout(() => {
-          this.textContent = existingIndex === -1 ? 'Unpin' : 'Pin';
-        }, 2000);
-      });
-    });
+    localStorage.setItem('pins', JSON.stringify(pins));
+    
+    setTimeout(() => {
+      this.textContent = existingIndex === -1 ? 'Unpin' : 'Pin';
+    }, 2000);
   });
+});
 </script>
 </body>
 </html>
