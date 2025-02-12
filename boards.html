@@ -191,18 +191,17 @@
       <!-- Pinned items will be inserted here -->
     </div>
   </main>
-  <script>
-    // Update boards.html script
+ <script>
     function refreshBoard() {
       const pins = JSON.parse(localStorage.getItem('pins') || '[]');
       const grid = document.getElementById('board-grid');
       grid.innerHTML = '';
-  
+    
       if (pins.length === 0) {
         grid.innerHTML = '<p style="color: white; text-align: center; width: 100%;">No pins saved yet!</p>';
         return;
       }
-  
+    
       pins.forEach(pin => {
         const card = document.createElement('div');
         card.className = 'photo-card';
@@ -215,12 +214,13 @@
         grid.appendChild(card);
       });
     }
-  
-    // Refresh board when storage changes
+    
+    // Refresh board when storage changes (for cross-tab updates)
     window.addEventListener('storage', refreshBoard);
     
-    // Initial load
+    // Initial load and refresh on navigation
     document.addEventListener('DOMContentLoaded', refreshBoard);
-  </script>
+    window.addEventListener('pageshow', refreshBoard); // Handle back/forward navigation
+    </script>
 </body>
 </html>
